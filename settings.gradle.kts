@@ -15,3 +15,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "Shopr"
 include(":app")
+include(":database")
+include(":network")
