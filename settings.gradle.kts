@@ -3,6 +3,7 @@ pluginManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven { url = uri("https://maven.pkg.jetbrains.space/public/p/ktor/eap") }
     }
 }
 dependencyResolutionManagement {
@@ -17,3 +18,4 @@ rootProject.name = "Shopr"
 include(":app")
 include(":database")
 include(":network")
+include(":model")
