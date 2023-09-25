@@ -8,6 +8,6 @@ import io.ktor.client.request.get
 class ShoprNetwork(private val client: HttpClient) {
 
     suspend fun getCart(): Cart {
-        return client.get("").body() as Cart
+        return client.get("https://s3-eu-west-1.amazonaws.com/developer-application-test/cart/list").body()
     }
 }

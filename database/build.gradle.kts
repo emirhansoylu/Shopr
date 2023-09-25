@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
     id("com.google.devtools.ksp")
 }
 
@@ -37,13 +36,13 @@ android {
 dependencies {
     implementation(project(":model"))
     implementation("androidx.core:core-ktx:1.12.0")
-    implementation("androidx.test.ext:junit-ktx:1.1.5")
 
     val room_version: String by project
     implementation("androidx.room:room-ktx:$room_version")
     implementation("androidx.room:room-runtime:$room_version")
     ksp("androidx.room:room-compiler:$room_version")
 
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
     testImplementation("junit:junit:4.13.2")
     testImplementation("androidx.room:room-testing:$room_version")
 }
