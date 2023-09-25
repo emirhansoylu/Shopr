@@ -1,6 +1,5 @@
 package dev.duckbuddyy.shopr.model
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

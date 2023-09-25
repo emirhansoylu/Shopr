@@ -1,6 +1,5 @@
 package dev.duckbuddyy.shopr.model
 
-
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -14,4 +13,11 @@ data class Product(
     val price: Int,
     @SerialName("product_id")
     val productId: String
-)
+) {
+    fun toProductEntity() = ProductEntity(
+        image = image,
+        name = name,
+        price = price,
+        productId = productId
+    )
+}
