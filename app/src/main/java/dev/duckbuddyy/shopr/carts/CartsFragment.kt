@@ -5,28 +5,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import dev.duckbuddyy.shopr.R
+import androidx.fragment.app.viewModels
+import dagger.hilt.android.AndroidEntryPoint
+import dev.duckbuddyy.shopr.databinding.FragmentCartsBinding
 
+@AndroidEntryPoint
 class CartsFragment : Fragment() {
+    private val viewModel: CartsViewModel by viewModels()
 
-    companion object {
-        fun newInstance() = CartsFragment()
-    }
-
-    private lateinit var viewModel: CartsViewModel
+    private var _binding: FragmentCartsBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_carts, container, false)
+    ): View {
+        _binding = FragmentCartsBinding.inflate(layoutInflater)
+        return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(CartsViewModel::class.java)
-        // TODO: Use the ViewModel
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
-
 }
