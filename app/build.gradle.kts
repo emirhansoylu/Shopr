@@ -40,6 +40,7 @@ android {
 
 dependencies {
     implementation(project(":database"))
+    implementation(project(":network"))
     implementation(project(":model"))
 
     implementation("androidx.core:core-ktx:1.12.0")
@@ -55,6 +56,11 @@ dependencies {
     val hilt_version: String by project
     implementation ("com.google.dagger:hilt-android:$hilt_version")
     kapt("com.google.dagger:hilt-compiler:$hilt_version")
+
+    val ktor_version: String by project
+    implementation("io.ktor:ktor-client-core:$ktor_version")
+    implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-logging:$ktor_version")
 
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")

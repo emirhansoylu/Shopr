@@ -9,13 +9,13 @@ import dev.duckbuddyy.shopr.model.ProductEntity
 @Dao
 interface ProductDao {
     /**
-     * Creates or replaces products on
+     * Creates or replaces cached products on local database.
      */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertProducts(products: List<ProductEntity>)
 
     /**
-     * Gets the
+     * Gets the cached products from local database.
      */
     @Query("SELECT * FROM products")
     fun getProducts(): List<ProductEntity>

@@ -1,7 +1,6 @@
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
-    kotlin("kapt")
 }
 
 android {
@@ -39,9 +38,9 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")
 
-    val hilt_version: String by project
-    implementation ("com.google.dagger:hilt-android:$hilt_version")
-    kapt ("com.google.dagger:hilt-compiler:$hilt_version")
+    val ktor_version: String by project
+    implementation("io.ktor:ktor-client-core:$ktor_version")
+    implementation("io.ktor:ktor-client-serialization:$ktor_version")
 
     testImplementation("junit:junit:4.13.2")
 }

@@ -37,6 +37,7 @@ android {
 dependencies {
     implementation(project(":model"))
     implementation("androidx.core:core-ktx:1.12.0")
+    implementation("androidx.test.ext:junit-ktx:1.1.5")
 
     val room_version: String by project
     implementation("androidx.room:room-ktx:$room_version")

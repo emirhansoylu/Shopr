@@ -9,6 +9,12 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.duckbuddyy.shopr.R
 import dev.duckbuddyy.shopr.database.ShoprDatabase
+import dev.duckbuddyy.shopr.network.ShoprNetwork
+import io.ktor.client.HttpClient
+import io.ktor.client.engine.cio.CIO
+import io.ktor.client.engine.cio.endpoint
+import io.ktor.client.plugins.logging.LogLevel
+import io.ktor.client.plugins.logging.Logging
 import javax.inject.Singleton
 
 @Module
@@ -24,5 +30,24 @@ object SingletonModule {
             ShoprDatabase::class.java,
             databaseName
         ).build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideShoprNetwork(): ShoprNetwork {
+        val client = HttpClient(CIO) {
+            engine {
+                maxConnectionsCount = 1000
+                endpoint {
+                    keepAliveTime = 5000
+                    connectTimeout = 5000
+                    connectAttempts = 5
+                }
+            }
+            install(Logging) {
+                level = LogLevel.ALL
+            }
+        }
+        return ShoprNetwork(client)
     }
 }
