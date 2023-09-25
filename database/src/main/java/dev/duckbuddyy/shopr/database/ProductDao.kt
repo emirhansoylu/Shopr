@@ -18,5 +18,5 @@ interface ProductDao {
      * Gets the cached products from local database.
      */
     @Query("SELECT * FROM products")
-    fun getProducts(): List<ProductEntity>
+    suspend fun getProducts(): List<ProductEntity>
 }

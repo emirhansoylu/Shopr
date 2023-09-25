@@ -4,7 +4,7 @@ import androidx.room.Database
 import androidx.room.RoomDatabase
 import dev.duckbuddyy.shopr.model.ProductEntity
 
-@Database(entities = [ProductEntity::class], version = 2)
+@Database(entities = [ProductEntity::class], version = 2, exportSchema = false)
 abstract class ShoprDatabase : RoomDatabase() {
     abstract fun productDao(): ProductDao
 }

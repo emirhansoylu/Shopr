@@ -23,6 +23,6 @@ dependencies {
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.5.1")
 
-    val room_version: String by project
-    implementation("androidx.room:room-ktx:$room_version")
+    val roomVersion: String by project
+    implementation("androidx.room:room-ktx:$roomVersion")
 }
