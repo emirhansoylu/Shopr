@@ -20,9 +20,7 @@ class ProductsFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val productAdapter by lazy {
-        ProductAdapter(
-            onItemClicked = { navigateToProductDetail(product = it) }
-        )
+        ProductAdapter(onItemClicked = { navigateToProductDetail(product = it) })
     }
 
     private val productsCollector: suspend (List<Product>) -> Unit = { products ->
