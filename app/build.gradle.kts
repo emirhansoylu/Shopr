@@ -73,7 +73,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.2")
 
     val hiltVersion: String by project
-    implementation ("com.google.dagger:hilt-android:$hiltVersion")
+    implementation("com.google.dagger:hilt-android:$hiltVersion")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     kapt("com.google.dagger:hilt-compiler:$hiltVersion")
 

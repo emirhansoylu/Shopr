@@ -7,8 +7,6 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.duckbuddyy.shopr.databinding.FragmentProductsBinding
 import dev.duckbuddyy.shopr.domain.collectLatestWhenStarted
@@ -30,6 +28,14 @@ class ProductsFragment : Fragment() {
         productAdapter.submitList(products)
     }
 
+    private val loadingCollector: suspend (Boolean) -> Unit = { isLoading ->
+        binding.srlProducts.isRefreshing = isLoading
+    }
+
+    private val hasErrorCollector: suspend (Boolean) -> Unit = { hasError ->
+
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -46,11 +52,14 @@ class ProductsFragment : Fragment() {
     }
 
     private fun initializeViews() = binding.apply {
+        srlProducts.setOnRefreshListener { viewModel.refreshProducts() }
         rvProduct.adapter = productAdapter
     }
 
     private fun initializeObservers() = viewModel.apply {
         productsFlow.collectLatestWhenStarted(viewLifecycleOwner, productsCollector)
+        loadingFlow.collectLatestWhenStarted(viewLifecycleOwner, loadingCollector)
+        hasErrorFlow.collectLatestWhenStarted(viewLifecycleOwner, hasErrorCollector)
     }
 
     private fun navigateToProductDetail(product: Product) {

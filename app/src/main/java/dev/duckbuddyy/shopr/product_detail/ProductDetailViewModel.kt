@@ -48,7 +48,7 @@ class ProductDetailViewModel @Inject constructor(
             _productDetailFlow.emit(productDetail)
         }.onFailure {
             _hasErrorFlow.emit(true)
-            if(BuildConfig.DEBUG){
+            if (BuildConfig.DEBUG) {
                 Log.e(this::class.simpleName, it.message.orEmpty())
             }
         }
@@ -56,5 +56,5 @@ class ProductDetailViewModel @Inject constructor(
         _loadingFlow.emit(false)
     }
 
-    fun refreshData() = getProductDetail(useCache = false)
+    fun refreshProductDetail() = getProductDetail(useCache = false)
 }

@@ -3,9 +3,8 @@ package dev.duckbuddyy.shopr.product_detail
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
-import android.view.View.VISIBLE
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
@@ -13,6 +12,7 @@ import dev.duckbuddyy.shopr.databinding.FragmentProductDetailBinding
 import dev.duckbuddyy.shopr.domain.collectLatestWhenStarted
 import dev.duckbuddyy.shopr.domain.load
 import dev.duckbuddyy.shopr.model.ProductDetail
+import kotlinx.coroutines.awaitCancellation
 
 @AndroidEntryPoint
 class ProductDetailFragment : Fragment() {
@@ -22,15 +22,26 @@ class ProductDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val productDetailCollector: suspend (ProductDetail?) -> Unit = { productDetail ->
-        initializeViews(productDetail = productDetail)
+        if (productDetail == null) {
+            awaitCancellation()
+        }
+        binding.apply {
+            layoutProductDetail.root.isVisible = true
+            layoutProductDetail.tvProductDetailName.text = productDetail.name
+            layoutProductDetail.tvProductDetailPrice.text = "$ ${productDetail.price}"
+            layoutProductDetail.tvProductDetailDescription.text = productDetail.description
+            ivProductDetail.load(productDetail.image)
+        }
     }
 
     private val hasErrorCollector: suspend (Boolean) -> Unit = { hasError ->
-        initializeViews(hasError = hasError)
+        binding.apply {
+
+        }
     }
 
     private val loadingCollector: suspend (Boolean) -> Unit = { isLoading ->
-        initializeViews(isLoading = isLoading)
+        binding.srlProductDetail.isRefreshing = isLoading
     }
 
     override fun onCreateView(
@@ -44,31 +55,12 @@ class ProductDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initializeViews()
         initializeObservers()
     }
 
-    private fun initializeViews(
-        productDetail: ProductDetail? = null,
-        isLoading: Boolean = false,
-        hasError: Boolean = false
-    ) = binding.apply {
-        productDetail?.let {
-            layoutProductDetail.root.visibility = VISIBLE
-            layoutProductDetail.tvProductDetailName.text = it.name
-            layoutProductDetail.tvProductDetailPrice.text = "$ ${it.price}"
-            layoutProductDetail.tvProductDetailDescription.text = it.description
-            ivProductDetail.load(it.image)
-            return@apply
-        }
-
-        if (isLoading) {
-            layoutProductDetail.root.visibility = GONE
-            return@apply
-        }
-
-        if (hasError) {
-            layoutProductDetail.root.visibility = GONE
-        }
+    private fun initializeViews() = binding.apply {
+        srlProductDetail.setOnRefreshListener { viewModel.refreshProductDetail() }
     }
 
     private fun initializeObservers() = viewModel.apply {

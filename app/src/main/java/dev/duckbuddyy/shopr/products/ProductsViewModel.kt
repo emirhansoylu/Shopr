@@ -43,11 +43,13 @@ class ProductsViewModel @Inject constructor(
             _productsFlow.emit(cart.products)
         }.onFailure {
             _hasErrorFlow.emit(true)
-            if(BuildConfig.DEBUG){
+            if (BuildConfig.DEBUG) {
                 Log.e(this::class.simpleName, it.message.orEmpty())
             }
         }
 
         _loadingFlow.emit(false)
     }
+
+    fun refreshProducts() = getProducts(useCache = false)
 }
