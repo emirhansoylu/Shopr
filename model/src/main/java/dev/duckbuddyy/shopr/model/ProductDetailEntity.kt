@@ -13,10 +13,10 @@ data class ProductDetailEntity(
     val productId: String
 ) {
     fun toProductDetail() = ProductDetail(
+        description = description,
         image = image,
         name = name,
         price = price,
-        productId = productId,
-        description = description
+        productId = productId
     )
 }

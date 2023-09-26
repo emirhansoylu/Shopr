@@ -17,6 +17,6 @@ interface ProductDetailDao {
     /**
      * Gets the information of cached product detail from local database.
      */
-    @Query("SELECT * FROM products WHERE productId = :productId")
+    @Query("SELECT * FROM product_detail WHERE productId = :productId")
     suspend fun getProductDetail(productId: String): ProductDetailEntity?
 }
