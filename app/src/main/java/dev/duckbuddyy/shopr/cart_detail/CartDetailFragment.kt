@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
-import dev.duckbuddyy.shopr.databinding.FragmentCartDetailBinding
+import dev.duckbuddyy.shopr.databinding.FragmentProductDetailBinding
 
 @AndroidEntryPoint
 class CartDetailFragment : Fragment() {
     private val viewModel: CartDetailViewModel by viewModels()
 
-    private var _binding: FragmentCartDetailBinding? = null
+    private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -21,7 +21,7 @@ class CartDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentCartDetailBinding.inflate(layoutInflater)
+        _binding = FragmentProductDetailBinding.inflate(layoutInflater)
         return binding.root
     }
 

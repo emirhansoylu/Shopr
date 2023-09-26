@@ -3,22 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/cartsFragment">
+    app:startDestination="@id/productsFragment">
 
     <fragment
-        android:id="@+id/cartsFragment"
-        android:name="dev.duckbuddyy.shopr.carts.CartsFragment"
+        android:id="@+id/productsFragment"
+        android:name="dev.duckbuddyy.shopr.products.ProductsFragment"
         android:label="fragment_carts"
-        tools:layout="@layout/fragment_carts" >
+        tools:layout="@layout/fragment_products" >
         <action
             android:id="@+id/action_cartsFragment_to_cartDetailFragment"
-            app:destination="@id/cartDetailFragment" />
+            app:destination="@id/productDetailFragment" />
     </fragment>
     <fragment
-        android:id="@+id/cartDetailFragment"
+        android:id="@+id/productDetailFragment"
         android:name="dev.duckbuddyy.shopr.cart_detail.CartDetailFragment"
         android:label="fragment_cart_detail"
-        tools:layout="@layout/fragment_cart_detail" >
+        tools:layout="@layout/fragment_product_detail" >
         <argument
             android:name="productId"
             app:argType="string" />
