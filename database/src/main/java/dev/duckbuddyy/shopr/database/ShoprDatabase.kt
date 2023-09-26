@@ -7,7 +7,7 @@ import dev.duckbuddyy.shopr.model.ProductEntity
 
 @Database(
     entities = [ProductEntity::class, ProductDetailEntity::class],
-    version = 2,
+    version = 1,
     exportSchema = false
 )
 abstract class ShoprDatabase : RoomDatabase() {

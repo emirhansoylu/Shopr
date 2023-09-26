@@ -21,7 +21,7 @@ class ShoprRepository(
         }
 
         val networkCart = network.getCart()
-        if (networkCart != null && networkCart.products.isNotEmpty()) {
+        if (networkCart.products.isNotEmpty()) {
             database.updateCart(networkCart)
             return@runCatching networkCart
         }
@@ -41,11 +41,7 @@ class ShoprRepository(
         }
 
         val networkProductDetail = network.getProductDetail(productId)
-        if (networkProductDetail != null) {
-            database.updateProductDetail(networkProductDetail)
-            return@runCatching networkProductDetail
-        }
-
-        throw Exception()
+        database.updateProductDetail(networkProductDetail)
+        networkProductDetail
     }
 }

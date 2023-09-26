@@ -1,10 +1,12 @@
 package dev.duckbuddyy.shopr.products
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.duckbuddyy.shopr.domain.ShoprRepository
 import dev.duckbuddyy.shopr.model.Product
+import dev.duckbuddyy.shopr.network.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -41,6 +43,9 @@ class ProductsViewModel @Inject constructor(
             _productsFlow.emit(cart.products)
         }.onFailure {
             _hasErrorFlow.emit(true)
+            if(BuildConfig.DEBUG){
+                Log.e(this::class.simpleName, it.message.orEmpty())
+            }
         }
 
         _loadingFlow.emit(false)
