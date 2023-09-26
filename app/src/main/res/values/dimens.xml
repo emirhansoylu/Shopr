@@ -5,7 +5,7 @@
     <dimen name="corner_radius">8dp</dimen>
     <dimen name="product_info_height">64dp</dimen>
 
-    <dimen name="small_margin">8dp</dimen>
-    <dimen name="medium_margin">12dp</dimen>
-    <dimen name="high_margin">18dp</dimen>
+    <dimen name="small_margin">4dp</dimen>
+    <dimen name="medium_margin">8dp</dimen>
+    <dimen name="high_margin">12dp</dimen>
 </resources>

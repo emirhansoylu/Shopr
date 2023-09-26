@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/rv_product"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".product_detail.ProductDetailFragment">
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_product"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
-        app:spanCount="3"
-        tools:listitem="@layout/item_product_list" />
-</FrameLayout>
+    android:background="?android:colorBackground"
+    app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
+    app:spanCount="3"
+    tools:context=".product_detail.ProductDetailFragment"
+    tools:listitem="@layout/item_product_list" />

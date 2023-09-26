@@ -9,18 +9,20 @@
         android:id="@+id/productsFragment"
         android:name="dev.duckbuddyy.shopr.products.ProductsFragment"
         android:label="fragment_carts"
-        tools:layout="@layout/fragment_products" >
+        tools:layout="@layout/fragment_products">
         <action
             android:id="@+id/action_cartsFragment_to_cartDetailFragment"
             app:destination="@id/productDetailFragment"
-            app:enterAnim="@anim/anim_navigate"
-            app:exitAnim="@anim/anim_navigate_up" />
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"/>
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
         android:name="dev.duckbuddyy.shopr.product_detail.ProductDetailFragment"
         android:label="fragment_cart_detail"
-        tools:layout="@layout/fragment_product_detail" >
+        tools:layout="@layout/fragment_product_detail">
         <argument
             android:name="productId"
             app:argType="string" />

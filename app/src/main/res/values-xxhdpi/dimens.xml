@@ -2,7 +2,7 @@
 <resources>
     <dimen name="corner_radius">12dp</dimen>
 
-    <dimen name="small_margin">10dp</dimen>
-    <dimen name="medium_margin">16dp</dimen>
-    <dimen name="high_margin">28dp</dimen>
+    <dimen name="small_margin">6dp</dimen>
+    <dimen name="medium_margin">10dp</dimen>
+    <dimen name="high_margin">14dp</dimen>
 </resources>

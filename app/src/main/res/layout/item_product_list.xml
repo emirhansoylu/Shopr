@@ -11,7 +11,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingHorizontal="@dimen/medium_margin">
+        android:paddingHorizontal="@dimen/small_margin">
 
         <ImageView
             android:id="@+id/iv_product"
@@ -29,7 +29,7 @@
             android:id="@+id/cardView"
             android:layout_width="@dimen/zero"
             android:layout_height="@dimen/product_info_height"
-            android:layout_marginVertical="@dimen/medium_margin"
+            android:layout_marginVertical="@dimen/small_margin"
             app:cardBackgroundColor="?android:colorBackground"
             app:cardCornerRadius="@dimen/corner_radius"
             app:cardElevation="@dimen/zero"
