@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_products" >
         <action
             android:id="@+id/action_cartsFragment_to_cartDetailFragment"
-            app:destination="@id/productDetailFragment" />
+            app:destination="@id/productDetailFragment"
+            app:enterAnim="@anim/anim_navigate"
+            app:exitAnim="@anim/anim_navigate_up" />
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"

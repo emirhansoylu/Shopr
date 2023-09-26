@@ -16,7 +16,7 @@ import javax.inject.Inject
 class ProductDetailViewModel @Inject constructor(
     private val shoprRepository: ShoprRepository,
     savedStateHandle: SavedStateHandle
-): ViewModel() {
+) : ViewModel() {
     private val arguments = ProductDetailFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
     private val _productDetailFlow = MutableStateFlow<ProductDetail?>(null)
@@ -29,16 +29,19 @@ class ProductDetailViewModel @Inject constructor(
     val hasErrorFlow = _hasErrorFlow.asStateFlow()
 
     init {
-        val productId = arguments.productId
-        getProductDetail(productId)
+        getProductDetail()
     }
 
-    fun getProductDetail(productId: String) = viewModelScope.launch(Dispatchers.IO) {
+    private fun getProductDetail(
+        productId: String = arguments.productId,
+        useCache: Boolean = true
+    ) = viewModelScope.launch(Dispatchers.IO) {
         _loadingFlow.emit(true)
         _hasErrorFlow.emit(false)
 
         shoprRepository.getProductDetail(
-            productId = productId
+            productId = productId,
+            useCache = useCache
         ).onSuccess { productDetail ->
             _productDetailFlow.emit(productDetail)
         }.onFailure {
@@ -48,4 +51,5 @@ class ProductDetailViewModel @Inject constructor(
         _loadingFlow.emit(false)
     }
 
+    fun refreshData() = getProductDetail(useCache = false)
 }

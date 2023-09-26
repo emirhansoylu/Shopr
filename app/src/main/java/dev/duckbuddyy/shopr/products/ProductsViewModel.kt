@@ -29,11 +29,15 @@ class ProductsViewModel @Inject constructor(
         getProducts()
     }
 
-    fun getProducts() = viewModelScope.launch(Dispatchers.IO) {
+    private fun getProducts(
+        useCache: Boolean = true
+    ) = viewModelScope.launch(Dispatchers.IO) {
         _loadingFlow.emit(true)
         _hasErrorFlow.emit(false)
 
-        shoprRepository.getCart().onSuccess { cart ->
+        shoprRepository.getCart(
+            useCache = useCache
+        ).onSuccess { cart ->
             _productsFlow.emit(cart.products)
         }.onFailure {
             _hasErrorFlow.emit(true)
