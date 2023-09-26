@@ -9,13 +9,17 @@ import io.ktor.client.request.get
 class NetworkRepository {
     private val client: HttpClient = NetworkModule.httpClient
 
-    suspend fun getCart(): Cart {
+    suspend fun getCart(): Cart? = try {
         val url = BuildConfig.BASE_URL + "/cart/list"
-        return client.get(url).body()
+        client.get(url).body()
+    } catch (e: Exception) {
+        null
     }
 
-    suspend fun getProductDetail(productId: String): ProductDetail {
+    suspend fun getProductDetail(productId: String): ProductDetail? = try {
         val url = BuildConfig.BASE_URL + "/${productId}/detail"
-        return client.get(url).body()
+        client.get(url).body()
+    } catch (e: java.lang.Exception) {
+        null
     }
 }

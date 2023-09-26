@@ -23,7 +23,7 @@ class DatabaseRepository constructor(context: Context) {
         return productDetailEntity?.toProductDetail()
     }
 
-    suspend fun updateCart(productDetail: ProductDetail) {
+    suspend fun updateProductDetail(productDetail: ProductDetail) {
         val productDetailEntity = productDetail.toProductDetailEntity()
         shoprDatabase.productDetailDao().upsertProductDetail(productDetailEntity)
     }
