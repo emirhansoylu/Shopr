@@ -1,4 +1,4 @@
-package dev.duckbuddyy.shopr.cart_detail
+package dev.duckbuddyy.shopr.product_detail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,8 +10,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.duckbuddyy.shopr.databinding.FragmentProductDetailBinding
 
 @AndroidEntryPoint
-class CartDetailFragment : Fragment() {
-    private val viewModel: CartDetailViewModel by viewModels()
+class ProductDetailFragment : Fragment() {
+    private val viewModel: ProductDetailViewModel by viewModels()
 
     private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
@@ -21,7 +21,7 @@ class CartDetailFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentProductDetailBinding.inflate(layoutInflater)
+        _binding = FragmentProductDetailBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

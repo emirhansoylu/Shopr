@@ -14,7 +14,7 @@ import dev.duckbuddyy.shopr.model.Product
 
 @AndroidEntryPoint
 class ProductsFragment : Fragment() {
-    private val viewModel: CartsViewModel by viewModels()
+    private val viewModel: ProductsViewModel by viewModels()
 
     private var _binding: FragmentProductsBinding? = null
     private val binding get() = _binding!!
@@ -34,7 +34,7 @@ class ProductsFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentProductsBinding.inflate(layoutInflater)
+        _binding = FragmentProductsBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 

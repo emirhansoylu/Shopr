@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/productDetailFragment"
-        android:name="dev.duckbuddyy.shopr.cart_detail.CartDetailFragment"
+        android:name="dev.duckbuddyy.shopr.product_detail.ProductDetailFragment"
         android:label="fragment_cart_detail"
         tools:layout="@layout/fragment_product_detail" >
         <argument

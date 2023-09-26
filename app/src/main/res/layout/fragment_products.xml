@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".cart_detail.CartDetailFragment">
+    tools:context=".products.ProductsFragment">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_product"
@@ -12,5 +12,5 @@
         android:layout_height="match_parent"
         app:layoutManager="androidx.recyclerview.widget.StaggeredGridLayoutManager"
         app:spanCount="2"
-        tools:listitem="@layout/item_product_list"/>
+        tools:listitem="@layout/item_product_list" />
 </FrameLayout>
