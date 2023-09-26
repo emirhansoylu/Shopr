@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import dagger.hilt.android.AndroidEntryPoint
 import dev.duckbuddyy.shopr.databinding.FragmentProductDetailBinding
 import dev.duckbuddyy.shopr.domain.collectLatestWhenStarted
+import dev.duckbuddyy.shopr.domain.load
 import dev.duckbuddyy.shopr.model.ProductDetail
 
 @AndroidEntryPoint
@@ -53,8 +54,10 @@ class ProductDetailFragment : Fragment() {
     ) = binding.apply {
         productDetail?.let {
             layoutProductDetail.root.visibility = VISIBLE
-            layoutProductDetail.textView.text = it.name
-            layoutProductDetail.textView2.text = it.description
+            layoutProductDetail.tvProductDetailName.text = it.name
+            layoutProductDetail.tvProductDetailPrice.text = "$ ${it.price}"
+            layoutProductDetail.tvProductDetailDescription.text = it.description
+            ivProductDetail.load(it.image)
             return@apply
         }
 
