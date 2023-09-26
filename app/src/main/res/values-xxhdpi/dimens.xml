@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="corner_radius">12dp</dimen>
-    <dimen name="product_item_height">280dp</dimen>
 
     <dimen name="small_margin">10dp</dimen>
     <dimen name="medium_margin">16dp</dimen>

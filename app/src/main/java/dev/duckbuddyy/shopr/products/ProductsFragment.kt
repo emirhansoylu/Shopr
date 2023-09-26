@@ -7,10 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import dagger.hilt.android.AndroidEntryPoint
 import dev.duckbuddyy.shopr.databinding.FragmentProductsBinding
 import dev.duckbuddyy.shopr.domain.collectLatestWhenStarted
 import dev.duckbuddyy.shopr.model.Product
+
 
 @AndroidEntryPoint
 class ProductsFragment : Fragment() {

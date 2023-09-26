@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import dev.duckbuddyy.shopr.databinding.ItemProductListBinding
+import dev.duckbuddyy.shopr.domain.load
 import dev.duckbuddyy.shopr.model.Product
 
 class ProductAdapter(
@@ -34,6 +35,7 @@ class ProductAdapter(
             root.setOnClickListener { onItemClicked(product) }
             tvName.text = product.name
             tvPrice.text = "$ ${product.price}"
+            ivProduct.load(product.image)
         }
     }
 

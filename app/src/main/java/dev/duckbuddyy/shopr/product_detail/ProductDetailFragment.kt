@@ -3,6 +3,8 @@ package dev.duckbuddyy.shopr.product_detail
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -19,9 +21,15 @@ class ProductDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val productDetailCollector: suspend (ProductDetail?) -> Unit = { productDetail ->
-        productDetail?.let {
-            initializeViews(it)
-        }
+        initializeViews(productDetail = productDetail)
+    }
+
+    private val hasErrorCollector: suspend (Boolean) -> Unit = { hasError ->
+        initializeViews(hasError = hasError)
+    }
+
+    private val loadingCollector: suspend (Boolean) -> Unit = { isLoading ->
+        initializeViews(isLoading = isLoading)
     }
 
     override fun onCreateView(
@@ -38,14 +46,32 @@ class ProductDetailFragment : Fragment() {
         initializeObservers()
     }
 
-    private fun initializeViews(productDetail: ProductDetail) = binding.apply {
-        layoutProductDetail.textView.text = productDetail.name
-        layoutProductDetail.textView2.text = productDetail.description
-        //layoutProductDetail.textView2.text = productDetail.price.toString()
+    private fun initializeViews(
+        productDetail: ProductDetail? = null,
+        isLoading: Boolean = false,
+        hasError: Boolean = false
+    ) = binding.apply {
+        productDetail?.let {
+            layoutProductDetail.root.visibility = VISIBLE
+            layoutProductDetail.textView.text = it.name
+            layoutProductDetail.textView2.text = it.description
+            return@apply
+        }
+
+        if (isLoading) {
+            layoutProductDetail.root.visibility = GONE
+            return@apply
+        }
+
+        if (hasError) {
+            layoutProductDetail.root.visibility = GONE
+        }
     }
 
     private fun initializeObservers() = viewModel.apply {
         productDetailFlow.collectLatestWhenStarted(viewLifecycleOwner, productDetailCollector)
+        loadingFlow.collectLatestWhenStarted(viewLifecycleOwner, loadingCollector)
+        hasErrorFlow.collectLatestWhenStarted(viewLifecycleOwner, hasErrorCollector)
     }
 
     override fun onDestroyView() {
