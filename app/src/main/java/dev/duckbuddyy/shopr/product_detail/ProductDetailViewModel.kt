@@ -38,6 +38,7 @@ class ProductDetailViewModel @Inject constructor(
         productId: String = arguments.productId,
         useCache: Boolean = true
     ) = viewModelScope.launch(Dispatchers.IO) {
+        _productDetailFlow.emit(null)
         _loadingFlow.emit(true)
         _hasErrorFlow.emit(false)
 

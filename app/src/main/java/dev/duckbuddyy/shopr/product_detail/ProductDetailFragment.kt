@@ -12,7 +12,6 @@ import dev.duckbuddyy.shopr.databinding.FragmentProductDetailBinding
 import dev.duckbuddyy.shopr.domain.collectLatestWhenStarted
 import dev.duckbuddyy.shopr.domain.load
 import dev.duckbuddyy.shopr.model.ProductDetail
-import kotlinx.coroutines.awaitCancellation
 
 @AndroidEntryPoint
 class ProductDetailFragment : Fragment() {
@@ -22,26 +21,28 @@ class ProductDetailFragment : Fragment() {
     private val binding get() = _binding!!
 
     private val productDetailCollector: suspend (ProductDetail?) -> Unit = { productDetail ->
-        if (productDetail == null) {
-            awaitCancellation()
-        }
         binding.apply {
-            layoutProductDetail.root.isVisible = true
-            layoutProductDetail.tvProductDetailName.text = productDetail.name
-            layoutProductDetail.tvProductDetailPrice.text = "$ ${productDetail.price}"
-            layoutProductDetail.tvProductDetailDescription.text = productDetail.description
-            ivProductDetail.load(productDetail.image)
+            srlProductDetail.isVisible = productDetail != null
+            productDetail?.let {
+                layoutProductDetail.apply {
+                    tvProductDetailName.text = it.name
+                    tvProductDetailPrice.text = "$ ${it.price}"
+                    tvProductDetailDescription.text = it.description
+                    ivProductDetail.load(it.image)
+                }
+            }
         }
     }
 
     private val hasErrorCollector: suspend (Boolean) -> Unit = { hasError ->
-        binding.apply {
-
-        }
+        binding.layoutProductDetailError.root.isVisible = hasError
     }
 
     private val loadingCollector: suspend (Boolean) -> Unit = { isLoading ->
-        binding.srlProductDetail.isRefreshing = isLoading
+        binding.apply {
+            layoutProductDetailLoading.root.isVisible = isLoading
+            srlProductDetail.isRefreshing = isLoading
+        }
     }
 
     override fun onCreateView(
@@ -61,6 +62,7 @@ class ProductDetailFragment : Fragment() {
 
     private fun initializeViews() = binding.apply {
         srlProductDetail.setOnRefreshListener { viewModel.refreshProductDetail() }
+        layoutProductDetailError.retryButton.setOnClickListener { viewModel.refreshProductDetail() }
     }
 
     private fun initializeObservers() = viewModel.apply {
