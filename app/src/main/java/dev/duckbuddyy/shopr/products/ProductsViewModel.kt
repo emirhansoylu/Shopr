@@ -15,8 +15,8 @@ class ProductsViewModel @Inject constructor(
     private val shoprRepository: ShoprRepository
 ) : ViewModel() {
 
-    private val _productsStateFlow = MutableStateFlow<ProductsState>(ProductsState.Loading)
-    val productsStateFlow = _productsStateFlow.asStateFlow()
+    private val _uiStateFlow = MutableStateFlow<ProductsState>(ProductsState.Loading)
+    val uiStateFlow = _uiStateFlow.asStateFlow()
 
     init {
         getProducts()
@@ -25,16 +25,16 @@ class ProductsViewModel @Inject constructor(
     private fun getProducts(
         useCache: Boolean = true
     ) = viewModelScope.launch(Dispatchers.IO) {
-        _productsStateFlow.emit(ProductsState.Loading)
+        _uiStateFlow.emit(ProductsState.Loading)
 
         val products = shoprRepository.getCart(
             useCache = useCache
         )?.products.orEmpty()
 
         if (products.isNotEmpty()) {
-            _productsStateFlow.emit(ProductsState.Success(products))
+            _uiStateFlow.emit(ProductsState.Success(products))
         } else {
-            _productsStateFlow.emit(ProductsState.Error)
+            _uiStateFlow.emit(ProductsState.Error)
         }
     }
 

@@ -19,7 +19,7 @@ class ProductDetailFragment : Fragment() {
     private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val productDetailStateCollector: suspend (ProductDetailState) -> Unit = { state ->
+    private val uiStateCollector: suspend (ProductDetailState) -> Unit = { state ->
         binding.apply {
             srlProductDetail.isVisible = state is ProductDetailState.Success
             srlProductDetail.isRefreshing = state == ProductDetailState.Loading
@@ -58,7 +58,7 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun initializeObservers() = viewModel.apply {
-        productDetailStateFlow.collectLatestWhenStarted(viewLifecycleOwner, productDetailStateCollector)
+        uiStateFlow.collectLatestWhenStarted(viewLifecycleOwner, uiStateCollector)
     }
 
     override fun onDestroyView() {

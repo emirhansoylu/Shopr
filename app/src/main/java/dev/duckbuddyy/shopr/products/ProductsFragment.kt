@@ -24,7 +24,7 @@ class ProductsFragment : Fragment() {
         ProductAdapter(onItemClicked = { navigateToProductDetail(product = it) })
     }
 
-    private val productsStateCollector: suspend (ProductsState) -> Unit = { state ->
+    private val uiStateCollector: suspend (ProductsState) -> Unit = { state ->
         binding.apply {
             srlProducts.isRefreshing = state == ProductsState.Loading
             layoutProductsLoading.root.isVisible = state == ProductsState.Loading
@@ -57,7 +57,7 @@ class ProductsFragment : Fragment() {
     }
 
     private fun initializeObservers() = viewModel.apply {
-        productsStateFlow.collectLatestWhenStarted(viewLifecycleOwner, productsStateCollector)
+        uiStateFlow.collectLatestWhenStarted(viewLifecycleOwner, uiStateCollector)
     }
 
     private fun navigateToProductDetail(product: Product) {

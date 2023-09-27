@@ -18,9 +18,8 @@ class ProductDetailViewModel @Inject constructor(
 ) : ViewModel() {
     private val arguments = ProductDetailFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
-    private val _productDetailStateFlow =
-        MutableStateFlow<ProductDetailState>(ProductDetailState.Loading)
-    val productDetailStateFlow = _productDetailStateFlow.asStateFlow()
+    private val _uiStateFlow = MutableStateFlow<ProductDetailState>(ProductDetailState.Loading)
+    val uiStateFlow = _uiStateFlow.asStateFlow()
 
     init {
         getProductDetail()
@@ -30,7 +29,7 @@ class ProductDetailViewModel @Inject constructor(
         productId: String = arguments.productId,
         useCache: Boolean = true
     ) = viewModelScope.launch(Dispatchers.IO) {
-        _productDetailStateFlow.emit(ProductDetailState.Loading)
+        _uiStateFlow.emit(ProductDetailState.Loading)
 
         val productDetail = shoprRepository.getProductDetail(
             productId = productId,
@@ -38,9 +37,9 @@ class ProductDetailViewModel @Inject constructor(
         )
 
         if (productDetail != null) {
-            _productDetailStateFlow.emit(ProductDetailState.Success(productDetail))
+            _uiStateFlow.emit(ProductDetailState.Success(productDetail))
         } else {
-            _productDetailStateFlow.emit(ProductDetailState.Error)
+            _uiStateFlow.emit(ProductDetailState.Error)
         }
     }
 
