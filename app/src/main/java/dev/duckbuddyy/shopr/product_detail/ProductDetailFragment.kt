@@ -11,7 +11,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.duckbuddyy.shopr.databinding.FragmentProductDetailBinding
 import dev.duckbuddyy.shopr.domain.collectLatestWhenStarted
 import dev.duckbuddyy.shopr.domain.load
-import dev.duckbuddyy.shopr.model.ProductDetail
 
 @AndroidEntryPoint
 class ProductDetailFragment : Fragment() {
@@ -20,28 +19,21 @@ class ProductDetailFragment : Fragment() {
     private var _binding: FragmentProductDetailBinding? = null
     private val binding get() = _binding!!
 
-    private val productDetailCollector: suspend (ProductDetail?) -> Unit = { productDetail ->
+    private val productDetailStateCollector: suspend (ProductDetailState) -> Unit = { state ->
         binding.apply {
-            srlProductDetail.isVisible = productDetail != null
-            productDetail?.let {
+            srlProductDetail.isVisible = state is ProductDetailState.Success
+            srlProductDetail.isRefreshing = state == ProductDetailState.Loading
+            layoutProductDetailLoading.root.isVisible = state == ProductDetailState.Loading
+            layoutProductDetailError.root.isVisible = state == ProductDetailState.Error
+
+            if(state is ProductDetailState.Success) {
                 layoutProductDetail.apply {
-                    tvProductDetailName.text = it.name
-                    tvProductDetailPrice.text = "$ ${it.price}"
-                    tvProductDetailDescription.text = it.description
-                    ivProductDetail.load(it.image)
+                    tvProductDetailName.text = state.productDetail.name
+                    tvProductDetailPrice.text = "$ ${state.productDetail.price}"
+                    tvProductDetailDescription.text = state.productDetail.description
+                    ivProductDetail.load(state.productDetail.image)
                 }
             }
-        }
-    }
-
-    private val hasErrorCollector: suspend (Boolean) -> Unit = { hasError ->
-        binding.layoutProductDetailError.root.isVisible = hasError
-    }
-
-    private val loadingCollector: suspend (Boolean) -> Unit = { isLoading ->
-        binding.apply {
-            layoutProductDetailLoading.root.isVisible = isLoading
-            srlProductDetail.isRefreshing = isLoading
         }
     }
 
@@ -66,9 +58,7 @@ class ProductDetailFragment : Fragment() {
     }
 
     private fun initializeObservers() = viewModel.apply {
-        productDetailFlow.collectLatestWhenStarted(viewLifecycleOwner, productDetailCollector)
-        loadingFlow.collectLatestWhenStarted(viewLifecycleOwner, loadingCollector)
-        hasErrorFlow.collectLatestWhenStarted(viewLifecycleOwner, hasErrorCollector)
+        productDetailStateFlow.collectLatestWhenStarted(viewLifecycleOwner, productDetailStateCollector)
     }
 
     override fun onDestroyView() {

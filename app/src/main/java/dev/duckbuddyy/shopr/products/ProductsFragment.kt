@@ -24,20 +24,16 @@ class ProductsFragment : Fragment() {
         ProductAdapter(onItemClicked = { navigateToProductDetail(product = it) })
     }
 
-    private val productsCollector: suspend (List<Product>) -> Unit = { products ->
-        binding.srlProducts.isVisible = products.isNotEmpty()
-        productAdapter.submitList(products)
-    }
-
-    private val loadingCollector: suspend (Boolean) -> Unit = { isLoading ->
+    private val productsStateCollector: suspend (ProductsState) -> Unit = { state ->
         binding.apply {
-            layoutProductsLoading.root.isVisible = isLoading
-            srlProducts.isRefreshing = isLoading
+            srlProducts.isRefreshing = state == ProductsState.Loading
+            layoutProductsLoading.root.isVisible = state == ProductsState.Loading
+            layoutProductsError.root.isVisible = state == ProductsState.Error
+            srlProducts.isVisible = state is ProductsState.Success
+            if (state is ProductsState.Success) {
+                productAdapter.submitList(state.products)
+            }
         }
-    }
-
-    private val hasErrorCollector: suspend (Boolean) -> Unit = { hasError ->
-        binding.layoutProductsError.root.isVisible = hasError
     }
 
     override fun onCreateView(
@@ -61,9 +57,7 @@ class ProductsFragment : Fragment() {
     }
 
     private fun initializeObservers() = viewModel.apply {
-        productsFlow.collectLatestWhenStarted(viewLifecycleOwner, productsCollector)
-        loadingFlow.collectLatestWhenStarted(viewLifecycleOwner, loadingCollector)
-        hasErrorFlow.collectLatestWhenStarted(viewLifecycleOwner, hasErrorCollector)
+        productsStateFlow.collectLatestWhenStarted(viewLifecycleOwner, productsStateCollector)
     }
 
     private fun navigateToProductDetail(product: Product) {

@@ -1,13 +1,10 @@
 package dev.duckbuddyy.shopr.product_detail
 
-import android.util.Log
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.duckbuddyy.shopr.domain.ShoprRepository
-import dev.duckbuddyy.shopr.model.ProductDetail
-import dev.duckbuddyy.shopr.network.BuildConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -21,14 +18,9 @@ class ProductDetailViewModel @Inject constructor(
 ) : ViewModel() {
     private val arguments = ProductDetailFragmentArgs.fromSavedStateHandle(savedStateHandle)
 
-    private val _productDetailFlow = MutableStateFlow<ProductDetail?>(null)
-    val productDetailFlow = _productDetailFlow.asStateFlow()
-
-    private val _loadingFlow = MutableStateFlow(true)
-    val loadingFlow = _loadingFlow.asStateFlow()
-
-    private val _hasErrorFlow = MutableStateFlow(false)
-    val hasErrorFlow = _hasErrorFlow.asStateFlow()
+    private val _productDetailStateFlow =
+        MutableStateFlow<ProductDetailState>(ProductDetailState.Loading)
+    val productDetailStateFlow = _productDetailStateFlow.asStateFlow()
 
     init {
         getProductDetail()
@@ -38,23 +30,18 @@ class ProductDetailViewModel @Inject constructor(
         productId: String = arguments.productId,
         useCache: Boolean = true
     ) = viewModelScope.launch(Dispatchers.IO) {
-        _productDetailFlow.emit(null)
-        _loadingFlow.emit(true)
-        _hasErrorFlow.emit(false)
+        _productDetailStateFlow.emit(ProductDetailState.Loading)
 
-        shoprRepository.getProductDetail(
+        val productDetail = shoprRepository.getProductDetail(
             productId = productId,
             useCache = useCache
-        ).onSuccess { productDetail ->
-            _productDetailFlow.emit(productDetail)
-        }.onFailure {
-            _hasErrorFlow.emit(true)
-            if (BuildConfig.DEBUG) {
-                Log.e(this::class.simpleName, it.message.orEmpty())
-            }
-        }
+        )
 
-        _loadingFlow.emit(false)
+        if (productDetail != null) {
+            _productDetailStateFlow.emit(ProductDetailState.Success(productDetail))
+        } else {
+            _productDetailStateFlow.emit(ProductDetailState.Error)
+        }
     }
 
     fun refreshProductDetail() = getProductDetail(useCache = false)

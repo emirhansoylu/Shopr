@@ -12,36 +12,42 @@ class ShoprRepository(
 
     suspend fun getCart(
         useCache: Boolean = true
-    ) = runCatching<Cart> {
+    ): Cart? {
         if (useCache) {
-            val cachedCart = database.getCart()
-            if (cachedCart.products.isNotEmpty()) {
-                return@runCatching cachedCart
+            database.getCart().onSuccess { cachedCart: Cart ->
+                if (cachedCart.products.isNotEmpty()) {
+                    return cachedCart
+                }
+            }.onFailure { it.log() }
+        }
+
+        network.getCart().onSuccess { networkCart: Cart ->
+            if (networkCart.products.isNotEmpty()) {
+                database.updateCart(networkCart)
+                return networkCart
             }
-        }
+        }.onFailure { it.log() }
 
-        val networkCart = network.getCart()
-        if (networkCart.products.isNotEmpty()) {
-            database.updateCart(networkCart)
-            return@runCatching networkCart
-        }
-
-        throw Exception()
+        return null
     }
 
     suspend fun getProductDetail(
         productId: String,
         useCache: Boolean = true
-    ) = runCatching<ProductDetail> {
+    ): ProductDetail? {
         if (useCache) {
-            val cachedProductDetail = database.getProductDetail(productId)
-            if (cachedProductDetail != null) {
-                return@runCatching cachedProductDetail
-            }
+            database.getProductDetail(productId).onSuccess { cachedProductDetail: ProductDetail? ->
+                if (cachedProductDetail != null) {
+                    return cachedProductDetail
+                }
+            }.onFailure { it.log() }
         }
 
-        val networkProductDetail = network.getProductDetail(productId)
-        database.updateProductDetail(networkProductDetail)
-        networkProductDetail
+        network.getProductDetail(productId).onSuccess { networkProductDetail: ProductDetail ->
+            database.updateProductDetail(networkProductDetail)
+            return networkProductDetail
+        }.onFailure { it.log() }
+
+        return null
     }
 }
