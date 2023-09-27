@@ -27,6 +27,7 @@ internal object NetworkModule {
                 json(Json {
                     prettyPrint = true
                     isLenient = true
+                    ignoreUnknownKeys = true
                 })
             }
         }

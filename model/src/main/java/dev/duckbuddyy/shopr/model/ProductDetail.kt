@@ -2,10 +2,11 @@ package dev.duckbuddyy.shopr.model
 
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.json.JsonNames
 
 @Serializable
 data class ProductDetail(
-    @SerialName("description")
+    @JsonNames("description","decription")
     val description: String,
     @SerialName("image")
     val image: String,
