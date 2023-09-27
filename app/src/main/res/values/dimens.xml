@@ -4,6 +4,7 @@
 
     <dimen name="corner_radius">8dp</dimen>
     <dimen name="product_info_height">64dp</dimen>
+    <dimen name="icon_size">64dp</dimen>
 
     <dimen name="small_margin">4dp</dimen>
     <dimen name="medium_margin">8dp</dimen>
