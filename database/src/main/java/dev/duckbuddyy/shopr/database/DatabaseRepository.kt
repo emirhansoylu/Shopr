@@ -7,7 +7,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class DatabaseRepository constructor(context: Context) {
-    private val shoprDatabase: ShoprDatabase = DatabaseModule.getDatabaseInstance(context = context)
+    private val shoprDatabase: ShoprDatabase by lazy {
+        if (isTestMode)
+            DatabaseModule.getTestDatabaseInstance(context = context)
+        else
+            DatabaseModule.getDatabaseInstance(context = context)
+    }
 
     /**
      * Gets the cached product list from cache.
@@ -15,6 +20,9 @@ class DatabaseRepository constructor(context: Context) {
     suspend fun getCart(): Result<Cart> = withContext(Dispatchers.IO) {
         runCatching {
             val productEntities = shoprDatabase.productDao().getProducts()
+            if(productEntities.isEmpty()){
+                throw Exception("Cart should not be empty")
+            }
             val products = productEntities.map { it.toProduct() }
             Cart(products = products)
         }
@@ -57,5 +65,9 @@ class DatabaseRepository constructor(context: Context) {
             val productDetailEntity = productDetail.toProductDetailEntity()
             shoprDatabase.productDetailDao().upsertProductDetail(productDetailEntity)
         }
+    }
+
+    internal companion object {
+        var isTestMode = false
     }
 }
