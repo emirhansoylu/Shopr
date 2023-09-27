@@ -53,6 +53,7 @@ class ProductsFragment : Fragment() {
 
     private fun initializeViews() = binding.apply {
         srlProducts.setOnRefreshListener { viewModel.refreshProducts() }
+        layoutProductsError.retryButton.setOnClickListener { viewModel.refreshProducts() }
         rvProduct.adapter = productAdapter
     }
 
