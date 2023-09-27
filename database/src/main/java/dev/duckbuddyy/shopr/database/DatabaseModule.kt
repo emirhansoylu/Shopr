@@ -24,7 +24,7 @@ internal object DatabaseModule {
             val testInstance = Room.inMemoryDatabaseBuilder(
                 context.applicationContext,
                 ShoprDatabase::class.java,
-            ).build()
+            ).allowMainThreadQueries().build()
             TEST_INSTANCE = testInstance
             testInstance
         }
