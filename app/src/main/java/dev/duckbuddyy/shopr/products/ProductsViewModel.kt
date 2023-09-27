@@ -36,6 +36,7 @@ class ProductsViewModel @Inject constructor(
     ) = viewModelScope.launch(Dispatchers.IO) {
         _loadingFlow.emit(true)
         _hasErrorFlow.emit(false)
+        _productsFlow.emit(emptyList())
 
         shoprRepository.getCart(
             useCache = useCache

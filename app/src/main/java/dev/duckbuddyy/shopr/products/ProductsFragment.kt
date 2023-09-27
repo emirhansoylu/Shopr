@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -11,7 +12,6 @@ import dagger.hilt.android.AndroidEntryPoint
 import dev.duckbuddyy.shopr.databinding.FragmentProductsBinding
 import dev.duckbuddyy.shopr.domain.collectLatestWhenStarted
 import dev.duckbuddyy.shopr.model.Product
-
 
 @AndroidEntryPoint
 class ProductsFragment : Fragment() {
@@ -25,15 +25,19 @@ class ProductsFragment : Fragment() {
     }
 
     private val productsCollector: suspend (List<Product>) -> Unit = { products ->
+        binding.srlProducts.isVisible = products.isNotEmpty()
         productAdapter.submitList(products)
     }
 
     private val loadingCollector: suspend (Boolean) -> Unit = { isLoading ->
-        binding.srlProducts.isRefreshing = isLoading
+        binding.apply {
+            layoutProductsLoading.root.isVisible = isLoading
+            srlProducts.isRefreshing = isLoading
+        }
     }
 
     private val hasErrorCollector: suspend (Boolean) -> Unit = { hasError ->
-
+        binding.layoutProductsError.root.isVisible = hasError
     }
 
     override fun onCreateView(
