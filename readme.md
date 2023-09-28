@@ -26,7 +26,7 @@ Case study project for simple cart application.
 - ⚡ Dark/Light, Portrait/Land and different density support.
 - ⚡ Multi moduled architecture. (app, database, network, model)
 - ⚡ Unit and instrumented tests on database and network modules.
-- ⚡ Used Android Architecture and modern programming libraries. (such as Ktor, Hilt, Glide, Navigation Component, Room, Coroutines, Flow)
+- ⚡ Used Android Architecture and modern programming libraries. (such as Ktor, Hilt, Glide, Navigation Component, Splash Screen Api, Room, Coroutines, Flow)
 - ⚡ Preferred Material 3 design principles.
 - ⚡ Single Activity pattern and transaction animations.
 - ⚡ Caching and error handling.
