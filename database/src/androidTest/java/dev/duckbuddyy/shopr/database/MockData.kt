@@ -4,7 +4,7 @@ import dev.duckbuddyy.shopr.model.Cart
 import dev.duckbuddyy.shopr.model.Product
 import dev.duckbuddyy.shopr.model.ProductDetail
 
-object MockData {
+internal object MockData {
     val mockCart = Cart(
         products = listOf(
             Product(

@@ -9,7 +9,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class NetworkRepository {
-    private val client: HttpClient = NetworkModule.httpClient
+    internal var client: HttpClient = NetworkModule.httpClient
 
     /**
      * Gets the product list from network.
