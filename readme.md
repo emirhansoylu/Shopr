@@ -15,11 +15,11 @@ Case study project for simple cart application.
 
 ### Light & Land Mode
 
-![Light Mode](portrait_dark.gif)
+![Light Mode](land_light.gif)
 
 ### Dark & Land Mode
 
-![Dark Mode](NasaRest_dark.gif)
+![Light Mode](land_dark.gif)
 
 ## Highlighted Specs
 <img align="left" alt="Deno" width="24px" src="https://user-images.githubusercontent.com/6463980/28998869-97bca9dc-7a03-11e7-8a95-3bbe9c1f7926.png"/> Developed with Kotlin!
