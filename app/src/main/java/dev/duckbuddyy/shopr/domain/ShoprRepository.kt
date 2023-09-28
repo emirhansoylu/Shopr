@@ -36,10 +36,8 @@ class ShoprRepository(
         useCache: Boolean = true
     ): ProductDetail? {
         if (useCache) {
-            database.getProductDetail(productId).onSuccess { cachedProductDetail: ProductDetail? ->
-                if (cachedProductDetail != null) {
-                    return cachedProductDetail
-                }
+            database.getProductDetail(productId).onSuccess { cachedProductDetail: ProductDetail ->
+                return cachedProductDetail
             }.onFailure { it.log() }
         }
 

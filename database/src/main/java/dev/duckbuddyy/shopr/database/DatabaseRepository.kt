@@ -47,10 +47,10 @@ class DatabaseRepository constructor(context: Context) {
      */
     suspend fun getProductDetail(
         productId: String
-    ): Result<ProductDetail?> = withContext(Dispatchers.IO) {
+    ): Result<ProductDetail> = withContext(Dispatchers.IO) {
         runCatching {
-            val productDetailEntity = shoprDatabase.productDetailDao().getProductDetail(productId)
-            productDetailEntity?.toProductDetail()
+            val productDetailEntity = shoprDatabase.productDetailDao().getProductDetail(productId)!!
+            productDetailEntity.toProductDetail()
         }
     }
 
