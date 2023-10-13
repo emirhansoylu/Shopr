@@ -1,7 +1,14 @@
 ## Shopr
+Simple Android application cart application that shows and caches product from API.
 
-Case study project for simple cart application.
+The project developed with multi-moduled architecure. This provides separation of concerns, and all of modules has own responsibilities.
 <br />
+ - Model module includes database and network models.
+
+ - Database module includes model module and reads and writes data to local storage with room library. In the database module, dependency injection used with simple kotlin object. I only expose repository class for other modules, other classes are internal or private. Database repository developed as an api and it does the processes in background and error safety. Database module also has instrumented test, that coverages database repository.
+
+ - Network module developed as same as database module. I’ve used Ktor library for network requests. This module has simple dependency injection, error handling and repository does the tasks in background thread. Network module also has unit tests that coverages NetworkRepository functions.
+ - Application module imports all of the modules. I’ve used feature based packaging. There are four packages in app module. DI includes Hilt dependency injection module. Domain package includes some extensions for prevent code repetition and repository for handle database and network requests and caching. While developing application, I’ve used __single activity pattern__ and I’ve used _Navigation Component_ for switching fragments. With the MVVM pattern view should dumb, that only observes the changes of ViewModel. When the ViewModel initializes, it has loading state then it gets product list from repository. When the response comes, ViewModel emits the UI state with StateFlow then UI collects the result.
 
 ## Here are the screen recordings of application
 
